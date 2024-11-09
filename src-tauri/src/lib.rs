@@ -2,11 +2,7 @@
 
 use http::{header::*, response::Builder as ResponseBuilder, status::StatusCode};
 use http_range::HttpRange;
-use std::{
-    io::{Read, Seek, SeekFrom, Write},
-    path::PathBuf,
-    process::{Command, Stdio},
-};
+use std::io::{Read, Seek, SeekFrom, Write};
 
 mod http_range;
 
@@ -24,7 +20,7 @@ fn get_stream_response(
         .to_string();
 
     // return error 404 if it's not our video
-    if path != "streaming_example_test_video.mp4" {
+    if path != "rust.mp4" {
         return Ok(ResponseBuilder::new().status(404).body(Vec::new())?);
     }
 
@@ -167,34 +163,8 @@ fn random_boundary() -> String {
         })
 }
 
-fn download_video() {
-    let video_file = PathBuf::from("streaming_example_test_video.mp4");
-    if !video_file.exists() {
-        let video_url =
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-
-        // Downloading with curl this saves us from adding
-        // a Rust HTTP client dependency.
-        println!("Downloading {video_url}");
-        let status = Command::new("curl")
-            .arg("-L")
-            .arg("-o")
-            .arg(&video_file)
-            .arg(video_url)
-            .stdout(Stdio::inherit())
-            .stderr(Stdio::inherit())
-            .output()
-            .unwrap();
-
-        assert!(status.status.success());
-        assert!(video_file.exists());
-    }
-}
-
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    download_video();
-
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![greet])

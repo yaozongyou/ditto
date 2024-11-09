@@ -9,19 +9,10 @@ async function greet() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  /*
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
-  });
-  */
-
   const video = document.getElementById('video_source');
   const source = document.createElement('source');
   source.type = 'video/mp4';
-  source.src = convertFileSrc('streaming_example_test_video.mp4', 'stream');
+  source.src = convertFileSrc('rust.mp4', 'stream');
   video.appendChild(source);
   video.load();
 
