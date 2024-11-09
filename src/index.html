@@ -7,33 +7,29 @@
     <title>Tauri App</title>
     <script type="module" src="/main.js" defer></script>
   </head>
-
   <body>
     <main class="container">
-      <h1>Welcome to Tauri</h1>
+      <video id="video_source" controls="" autoplay="" name="media">
+        <source type="video/mp4" />
+      </video>
 
-      <div class="row">
-        <a href="https://tauri.app" target="_blank">
-          <img src="/assets/tauri.svg" class="logo tauri" alt="Tauri logo" />
-        </a>
-        <a
-          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-          target="_blank"
-        >
-          <img
-            src="/assets/javascript.svg"
-            class="logo vanilla"
-            alt="JavaScript logo"
-          />
-        </a>
+      <div class="controller">
+        <div>
+          <input type="checkbox" id="continuous-play" name="continuous-play" value="continuous-play">
+          <label for="continuous-play">连续播放</label>
+        </div>
+        <div class="round-button">
+          <div>
+            <button>上&nbsp;一&nbsp;句</button>
+          </div>
+          <div class="round-button-circle">
+            <a id="repeat-reading" class="round-button">复&nbsp;&nbsp;读</a>
+          </div>
+          <div>
+            <button>下&nbsp;一&nbsp;句</button>
+          </div>
+        </div>
       </div>
-      <p>Click on the Tauri logo to learn more about the framework</p>
-
-      <form class="row" id="greet-form">
-        <input id="greet-input" placeholder="Enter a name..." />
-        <button type="submit">Greet</button>
-      </form>
-      <p id="greet-msg"></p>
     </main>
   </body>
 </html>
