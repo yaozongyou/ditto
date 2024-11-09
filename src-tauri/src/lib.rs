@@ -7,8 +7,8 @@ use std::io::{Read, Seek, SeekFrom, Write};
 mod http_range;
 
 #[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+fn get_speech_timestamps() -> String {
+    std::fs::read_to_string("rust.stts").unwrap()
 }
 
 fn get_stream_response(
@@ -167,7 +167,7 @@ fn random_boundary() -> String {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![get_speech_timestamps])
         .register_asynchronous_uri_scheme_protocol("stream", move |_ctx, request, responder| {
             match get_stream_response(request) {
                 Ok(http_response) => responder.respond(http_response),
