@@ -120,7 +120,6 @@ window.addEventListener("DOMContentLoaded", () => {
   video.load();
 
   getSpeechTimestamps().then(function(timestamps) {
-    alert(timestamps);
     const stts = JSON.parse(timestamps);
 
     const previousSentence = document.getElementById('previous-sentence');
