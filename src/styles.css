@@ -21,14 +21,12 @@ video {
 }
 
 button {
-  padding: 0.25em 0.5em 0.25em 0.5em;
-  margin: 0 1em;
-
   text-align: center;
   color:#000000;
   font-family: Verdana;
   font-size: 1em;
   text-decoration: none;
+  padding: 0.25em 0.5em 0.25em 0.5em;
 }
 
 .round-button {
@@ -68,4 +66,39 @@ button {
   font-size:1.2em;
   font-weight:bold;
   text-decoration:none;
+
+  cursor: pointer; /* Pointer/hand icon */
+}
+
+#previous-sentence {
+  width: 100%;
+  margin-top: 0.5em;
+}
+
+#next-sentence {
+  width: 100%;
+  margin-top: 0.5em;
+}
+
+.btn-group {
+  margin: 0.1em 0.5em;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.flex-column-left {
+  display: flex;
+  flex-direction: column;
+  margin-right: 0.5em
+}
+
+.flex-column-right {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5em
 }

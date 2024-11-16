@@ -19,14 +19,22 @@
           <label for="continuous-play">连续播放</label>
         </div>
         <div class="round-button">
-          <div>
-            <button id="previous-sentence">上&nbsp;一&nbsp;句</button>
+          <div class="btn-group">
+            <div class="flex-container">
+              <button id="backward-more" class="flex-column-left">&lt;&lt;5s</button>
+              <button id="backward-little" class="flex-column-right">&lt;&lt;3s</button>
+            </div>
+            <button id="previous-sentence">&nbsp;&nbsp;上&nbsp;一&nbsp;句&nbsp;&nbsp;</button>
           </div>
           <div class="round-button-circle">
             <a id="repeat-reading" class="round-button">复&nbsp;&nbsp;读</a>
           </div>
-          <div>
-            <button id="next-sentence"">下&nbsp;一&nbsp;句</button>
+          <div class="btn-group">
+            <div class="flex-container">
+              <button id="forward-little" class="flex-column-left">&gt;&gt;3s</button>
+              <button id="forward-more" class="flex-column-right">&gt;&gt;5s</button>
+            </div>
+            <button id="next-sentence">&nbsp;&nbsp;下&nbsp;一&nbsp;句&nbsp;&nbsp;</button>
           </div>
         </div>
       </div>
