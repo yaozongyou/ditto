@@ -1,5 +1,7 @@
 const { invoke, convertFileSrc } = window.__TAURI__.core
 
+var timeouts = [];
+
 async function getSpeechTimestamps() {
   return await invoke("get_speech_timestamps");
 }
@@ -47,14 +49,32 @@ function locateNextSentence(stts, currentTime) {
   return currentSentence + 1;
 }
 
-function seekVideoToAndPlay(seekTime) {
+function seekVideoToAndPlay(seekTime, endTime) {
   const video = document.getElementById('video_source');
   if (video) {
     video.currentTime = seekTime;
     if (video.paused || video.ended) {
       video.play();
     }
+
+    clearAllTimeouts();
+
+    if (!document.getElementById("continuous-play").checked) {
+      timeouts.push(setInterval(function(){
+        if (video.currentTime >= endTime) {
+          video.pause();
+          clearAllTimeouts();
+        }
+      }, 100));
+    }
   }
+}
+
+function clearAllTimeouts() {
+  for (var i=0; i<timeouts.length; i++) {
+    clearTimeout(timeouts[i]);
+  }
+  timeouts = [];
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -72,19 +92,25 @@ window.addEventListener("DOMContentLoaded", () => {
     const previousSentence = document.getElementById('previous-sentence');
     previousSentence.addEventListener('click', (e) => {
       const previousSentence = locatePreviousSentence(stts, video.currentTime);
-      seekVideoToAndPlay(stts[previousSentence].start);
+      const start = stts[previousSentence].start;
+      const end = stts[previousSentence].end;
+      seekVideoToAndPlay(start, end);
     });
 
     const nextSentence = document.getElementById('next-sentence');
     nextSentence.addEventListener('click', (e) => {
       const nextSentence = locateNextSentence(stts, video.currentTime);
-      seekVideoToAndPlay(stts[nextSentence].start);
+      const start = stts[nextSentence].start;
+      const end = stts[nextSentence].end;
+      seekVideoToAndPlay(start, end);
     });
 
     const repeatReading = document.getElementById('repeat-reading');
     repeatReading.addEventListener('click', (e) => {
       const currentSentence = locateCurrentSentence(stts, video.currentTime);
-      seekVideoToAndPlay(stts[currentSentence].start);
+      const start = stts[currentSentence].start;
+      const end = stts[currentSentence].end;
+      seekVideoToAndPlay(start, end);
     });
   });
 });
