@@ -18,7 +18,7 @@
     "security": {
       "csp": "default-src 'self'; connect-src ipc: http://ipc.localhost; media-src stream: http://stream.localhost",
       "assetProtocol": {
-        "scope": ["**/rust.mp4"]
+        "scope": ["**/family.mp4"]
       }
     }
   },
