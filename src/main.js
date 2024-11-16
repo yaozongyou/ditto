@@ -78,6 +78,40 @@ function clearAllTimeouts() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  let overlay = document.getElementById("overlay");
+
+  function drag(e) {
+    const width = overlay.clientWidth;
+    const height = overlay.clientHeight;
+
+    if(overlay.classList.contains('full-width')) {
+      overlay.style.transform = `translate(0px, ${e.pageY - height / 2}px)`;
+    } else {
+      overlay.style.transform = `translate(${e.pageX - width / 2}px, ${e.pageY - height / 2}px)`;
+    }
+  }
+
+  overlay.addEventListener("mousedown", () =>
+    document.addEventListener("mousemove", drag)
+  );
+
+  overlay.addEventListener("mouseup", () =>
+    document.removeEventListener("mousemove", drag)
+  );
+
+  overlay.addEventListener("dblclick", (e) => {
+    if(overlay.classList.contains('full-width')) {
+      overlay.classList.remove('full-width');
+      overlay.classList.add('normal-width');
+    } else {
+      overlay.classList.remove('normal-width');
+      overlay.classList.add('full-width');
+    }
+
+    const regex = /translate\(-*\d+px,/;
+    overlay.style.transform = overlay.style.transform.replace(regex,'translate(0px,');
+  });
+
   const video = document.getElementById('video_source');
   const source = document.createElement('source');
   source.type = 'video/mp4';
@@ -135,7 +169,7 @@ window.addEventListener("DOMContentLoaded", () => {
       }
       const end = stts[currentSentence].end;
       seekVideoToAndPlay(start, end);
-    });    
+    });
 
     const forwardMore = document.getElementById('forward-more');
     forwardMore.addEventListener('click', (e) => {
@@ -159,6 +193,6 @@ window.addEventListener("DOMContentLoaded", () => {
       }
       const end = stts[currentSentence].end;
       seekVideoToAndPlay(start, end);
-    }); 
+    });
   });
 });

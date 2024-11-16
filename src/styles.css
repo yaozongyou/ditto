@@ -102,3 +102,24 @@ button {
   flex-direction: column;
   margin-left: 0.5em
 }
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 64px;
+  background-color: rgba(200, 100, 100, 0.5);
+  cursor: pointer; /* Pointer/hand icon */
+  /*border-radius: 50%;*/
+  border: 1px solid red;
+  resize: both;
+  transition: width 0.3s ease-in;
+}
+
+.normal-width {
+  width: 64px;
+}
+
+.full-width {
+  width: 100%;
+}
