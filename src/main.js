@@ -112,5 +112,53 @@ window.addEventListener("DOMContentLoaded", () => {
       const end = stts[currentSentence].end;
       seekVideoToAndPlay(start, end);
     });
+
+    const backwardMore = document.getElementById('backward-more');
+    backwardMore.addEventListener('click', (e) => {
+      const currentSentence = locateCurrentSentence(stts, video.currentTime);
+      let start = video.currentTime;
+      start -= 5;
+      if (start < 0) {
+        start = 0;
+      }
+      const end = stts[currentSentence].end;
+      seekVideoToAndPlay(start, end);
+    });
+
+    const backwardLittle = document.getElementById('backward-little');
+    backwardLittle.addEventListener('click', (e) => {
+      const currentSentence = locateCurrentSentence(stts, video.currentTime);
+      let start = video.currentTime;
+      start -= 3;
+      if (start < 0) {
+        start = 0;
+      }
+      const end = stts[currentSentence].end;
+      seekVideoToAndPlay(start, end);
+    });    
+
+    const forwardMore = document.getElementById('forward-more');
+    forwardMore.addEventListener('click', (e) => {
+      const currentSentence = locateCurrentSentence(stts, video.currentTime);
+      let start = video.currentTime;
+      start += 5;
+      if (start >= video.duration) {
+        start = video.duration;
+      }
+      const end = stts[currentSentence].end;
+      seekVideoToAndPlay(start, end);
+    });
+
+    const forwardLittle = document.getElementById('forward-little');
+    forwardLittle.addEventListener('click', (e) => {
+      const currentSentence = locateCurrentSentence(stts, video.currentTime);
+      let start = video.currentTime;
+      start += 3;
+      if (start >= video.duration) {
+        start = video.duration;
+      }
+      const end = stts[currentSentence].end;
+      seekVideoToAndPlay(start, end);
+    }); 
   });
 });
