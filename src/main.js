@@ -79,6 +79,10 @@ function clearAllTimeouts() {
 
 window.addEventListener("DOMContentLoaded", () => {
   let overlay = document.getElementById("overlay");
+  const video = document.getElementById('video_source');
+  overlay.style.transform = `translate(0, ${video.clientHeight - 100 - overlay.clientHeight / 2}px)`;
+
+  let subtitleOverlay = document.getElementById("subtitle-overlay");
 
   function drag(e) {
     const width = overlay.clientWidth;
@@ -99,7 +103,7 @@ window.addEventListener("DOMContentLoaded", () => {
     document.removeEventListener("mousemove", drag)
   );
 
-  overlay.addEventListener("dblclick", (e) => {
+  subtitleOverlay.addEventListener("click", () => {
     if(overlay.classList.contains('full-width')) {
       overlay.classList.remove('full-width');
       overlay.classList.add('normal-width');
@@ -111,8 +115,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const regex = /translate\(-*\d+px,/;
     overlay.style.transform = overlay.style.transform.replace(regex,'translate(0px,');
   });
-
-  const video = document.getElementById('video_source');
+  
   const source = document.createElement('source');
   source.type = 'video/mp4';
   source.src = convertFileSrc('family.mp4', 'stream');
