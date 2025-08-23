@@ -8,7 +8,7 @@ mod http_range;
 
 #[tauri::command]
 fn get_speech_timestamps() -> String {
-    std::fs::read_to_string("family.stts").unwrap()
+    std::fs::read_to_string("rust.stts").unwrap()
 }
 
 fn get_stream_response(
@@ -20,7 +20,7 @@ fn get_stream_response(
         .to_string();
 
     // return error 404 if it's not our video
-    if path != "family.mp4" {
+    if path != "rust.mp4" {
         return Ok(ResponseBuilder::new().status(404).body(Vec::new())?);
     }
 

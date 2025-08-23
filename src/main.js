@@ -118,7 +118,7 @@ window.addEventListener("DOMContentLoaded", () => {
   
   const source = document.createElement('source');
   source.type = 'video/mp4';
-  source.src = convertFileSrc('family.mp4', 'stream');
+  source.src = convertFileSrc('rust.mp4', 'stream');
   video.appendChild(source);
   video.load();
 
