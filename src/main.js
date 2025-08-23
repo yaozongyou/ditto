@@ -1,9 +1,25 @@
 const { invoke, convertFileSrc } = window.__TAURI__.core
 
 var timeouts = [];
+var stts = [];
 
-async function getSpeechTimestamps() {
-  return await invoke("get_speech_timestamps");
+function changeFileExtname(filePath) {
+  if (typeof filePath !== 'string' || filePath.length === 0) {
+    console.error("Invalid input: The file path must be a non-empty string.");
+    return filePath;
+  }
+
+  const lastDotIndex = filePath.lastIndexOf('.');
+
+  if (lastDotIndex === -1 || lastDotIndex === filePath.length - 1) {
+    return filePath + '.stts';
+  }
+
+  return filePath.slice(0, lastDotIndex) + '.stts';
+}
+
+async function getSpeechTimestamps(filePath) {
+  return await invoke("get_speech_timestamps", { filePath: filePath });
 }
 
 // 找到当前时间对应的语句，比如说：
@@ -126,18 +142,20 @@ window.addEventListener("DOMContentLoaded", () => {
         source.src = convertFileSrc(filePath, 'stream');
         video.load();
         clearAllTimeouts();
+
+        const sttsPath = changeFileExtname(filePath);
+
+        getSpeechTimestamps(sttsPath).then(function(timestamps) {
+          console.log("timestamps", timestamps);
+          stts = JSON.parse(timestamps);
+          console.log("stts", stts);
+        });
       }
     });
   });
 
-  const source = document.createElement('source');
-  source.type = 'video/mp4';
-  source.src = convertFileSrc('rust.mp4', 'stream');
-  video.appendChild(source);
-  video.load();
-
-  getSpeechTimestamps().then(function(timestamps) {
-    const stts = JSON.parse(timestamps);
+  //getSpeechTimestamps().then(function(timestamps) {
+    //const stts = JSON.parse(timestamps);
 
     const previousSentence = document.getElementById('previous-sentence');
     previousSentence.addEventListener('click', (e) => {
@@ -210,5 +228,5 @@ window.addEventListener("DOMContentLoaded", () => {
       const end = stts[currentSentence].end;
       seekVideoToAndPlay(start, end);
     });
-  });
+  //});
 });

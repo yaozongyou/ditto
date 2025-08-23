@@ -9,8 +9,9 @@ use tauri_plugin_dialog::FilePath;
 mod http_range;
 
 #[tauri::command]
-fn get_speech_timestamps() -> String {
-    std::fs::read_to_string("rust.stts").unwrap()
+fn get_speech_timestamps(file_path: &str) -> String {
+    println!("get_speech_timestamps: {:?}", file_path);
+    std::fs::read_to_string(file_path).unwrap()
 }
 
 #[tauri::command]
