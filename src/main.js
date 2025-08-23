@@ -116,6 +116,20 @@ window.addEventListener("DOMContentLoaded", () => {
     overlay.style.transform = overlay.style.transform.replace(regex,'translate(0px,');
   });
   
+  let openFile = document.getElementById("open-file");
+  openFile.addEventListener("click", () => {
+    invoke("open_file_dialog").then( (filePath) => {
+      console.log("file path", filePath);
+
+      if (filePath && filePath.length > 0) {
+        const source = video.getElementsByTagName('source')[0];
+        source.src = convertFileSrc(filePath, 'stream');
+        video.load();
+        clearAllTimeouts();
+      }
+    });
+  });
+
   const source = document.createElement('source');
   source.type = 'video/mp4';
   source.src = convertFileSrc('rust.mp4', 'stream');

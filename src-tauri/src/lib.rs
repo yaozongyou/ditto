@@ -3,12 +3,20 @@
 use http::{header::*, response::Builder as ResponseBuilder, status::StatusCode};
 use http_range::HttpRange;
 use std::io::{Read, Seek, SeekFrom, Write};
+use tauri_plugin_dialog::DialogExt;
+use tauri_plugin_dialog::FilePath;
 
 mod http_range;
 
 #[tauri::command]
 fn get_speech_timestamps() -> String {
     std::fs::read_to_string("rust.stts").unwrap()
+}
+
+#[tauri::command]
+async fn open_file_dialog(app_handle: tauri::AppHandle) -> Option<FilePath> {
+    let dialog_api = app_handle.dialog();
+    dialog_api.file().blocking_pick_file()
 }
 
 fn get_stream_response(
@@ -19,10 +27,11 @@ fn get_stream_response(
         .decode_utf8_lossy()
         .to_string();
 
+    println!("Request for path: {path}");
     // return error 404 if it's not our video
-    if path != "rust.mp4" {
-        return Ok(ResponseBuilder::new().status(404).body(Vec::new())?);
-    }
+    //if path != "rust.mp4" {
+    //    return Ok(ResponseBuilder::new().status(404).body(Vec::new())?);
+    //}
 
     let mut file = std::fs::File::open(&path)?;
 
@@ -166,8 +175,10 @@ fn random_boundary() -> String {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![get_speech_timestamps])
+        .invoke_handler(tauri::generate_handler![open_file_dialog])
         .register_asynchronous_uri_scheme_protocol("stream", move |_ctx, request, responder| {
             match get_stream_response(request) {
                 Ok(http_response) => responder.respond(http_response),
