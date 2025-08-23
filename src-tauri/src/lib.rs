@@ -177,8 +177,7 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![get_speech_timestamps])
-        .invoke_handler(tauri::generate_handler![open_file_dialog])
+        .invoke_handler(tauri::generate_handler![get_speech_timestamps, open_file_dialog])
         .register_asynchronous_uri_scheme_protocol("stream", move |_ctx, request, responder| {
             match get_stream_response(request) {
                 Ok(http_response) => responder.respond(http_response),
