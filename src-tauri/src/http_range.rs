@@ -3,7 +3,7 @@
 //! HTTP Range header parser.
 //! Inspired by Go's net/http library.
 
-static PREFIX: &'static [u8] = b"bytes=";
+static PREFIX: &[u8] = b"bytes=";
 const PREFIX_LEN: usize = 6;
 
 /// Range parsing error

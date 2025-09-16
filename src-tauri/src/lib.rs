@@ -9,7 +9,7 @@ use tauri_plugin_dialog::FilePath;
 mod http_range;
 
 #[tauri::command]
-fn get_speech_timestamps(file_path: &str) -> Result<String, String> {
+fn get_speech_timestamps(file_path: &std::path::Path) -> Result<String, String> {
     std::fs::read_to_string(file_path).map_err(|e| e.to_string())
 }
 
@@ -23,15 +23,11 @@ fn get_stream_response(
     request: http::Request<Vec<u8>>,
 ) -> Result<http::Response<Vec<u8>>, Box<dyn std::error::Error>> {
     // skip leading `/`
-    let path = percent_encoding::percent_decode(request.uri().path()[1..].as_bytes())
+    let path = percent_encoding::percent_decode(&request.uri().path().as_bytes()[1..])
         .decode_utf8_lossy()
         .to_string();
 
     println!("Request for path: {path}");
-    // return error 404 if it's not our video
-    //if path != "rust.mp4" {
-    //    return Ok(ResponseBuilder::new().status(404).body(Vec::new())?);
-    //}
 
     let mut file = std::fs::File::open(&path)?;
 
