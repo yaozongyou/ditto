@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "ditto",
+  "productName": "Ditto外语复读学习机",
   "version": "0.1.0",
   "identifier": "com.yaozongyou.ditto.app",
   "build": {
@@ -10,18 +10,37 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "ditto",
+        "title": "Ditto外语复读学习机",
         "width": 800,
         "height": 600
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; connect-src ipc: http://ipc.localhost; media-src stream: http://stream.localhost",
+      "assetProtocol": {
+        "scope": ["**/rust.mp4"]
+      }
     }
   },
   "bundle": {
     "active": true,
     "targets": "all",
+    "windows": {
+      "allowDowngrades": true,
+      "certificateThumbprint": null,
+      "digestAlgorithm": null,
+      "nsis": null,
+      "signCommand": null,
+      "timestampUrl": null,
+      "tsp": false,
+      "webviewInstallMode": {
+        "silent": true,
+        "type": "downloadBootstrapper"
+      },
+      "wix": {
+        "language": "zh-CN"
+      }
+    },
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
