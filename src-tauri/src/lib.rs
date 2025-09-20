@@ -14,7 +14,7 @@ fn get_speech_timestamps(file_path: &std::path::Path) -> Result<String, String> 
 }
 
 #[tauri::command]
-fn open_file_dialog(app_handle: tauri::AppHandle) -> Option<FilePath> {
+async fn open_file_dialog(app_handle: tauri::AppHandle) -> Option<FilePath> {
     let dialog_api = app_handle.dialog();
     dialog_api.file().blocking_pick_file()
 }
