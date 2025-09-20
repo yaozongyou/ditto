@@ -4,6 +4,8 @@ This is a video and audio player designed specifically for language learners.
 It's a simple tool that allows you to play media **sentence by sentence**, 
 making it easy to focus on and repeat specific parts until you've mastered them. 🚀
 
+![ditto](ditto.png)
+
 ## Features ✨
 
 - **Sentence-by-Sentence Playback:** Break down videos and audio into manageable 
