@@ -27,3 +27,6 @@ getrandom = "0.2"
 percent-encoding = "2.3"
 tauri-plugin-dialog = "2"
 
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-updater = "2"
+
