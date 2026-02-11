@@ -98,6 +98,14 @@ window.addEventListener("DOMContentLoaded", () => {
   const video = document.getElementById('video_source');
   overlay.style.transform = `translate(0, ${video.clientHeight - 100 - overlay.clientHeight / 2}px)`;
 
+  // Show controls on mouse enter, hide on mouse leave to avoid dark overlay on macOS
+  video.addEventListener('mouseenter', () => {
+    video.setAttribute('controls', '');
+  });
+  video.addEventListener('mouseleave', () => {
+    video.removeAttribute('controls');
+  });
+
   let subtitleOverlay = document.getElementById("subtitle-overlay");
 
   function drag(e) {
