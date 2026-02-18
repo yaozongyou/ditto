@@ -27,8 +27,6 @@ fn get_stream_response(
         .decode_utf8_lossy()
         .to_string();
 
-    println!("Request for path: {path}");
-
     let mut file = std::fs::File::open(&path)?;
 
     // get file length
@@ -39,7 +37,10 @@ fn get_stream_response(
         len
     };
 
-    let mut resp = ResponseBuilder::new().header(CONTENT_TYPE, "video/mp4");
+    let guess = mime_guess::from_path(&path);
+    let mime = guess.first_or_text_plain();
+
+    let mut resp = ResponseBuilder::new().header(CONTENT_TYPE, mime.as_ref());
 
     // if the webview sent a range header, we need to send a 206 in return
     let http_response = if let Some(range_header) = request.headers().get("range") {
@@ -125,7 +126,7 @@ fn get_stream_response(
                 buf.write_all(boundary_sep.as_bytes())?;
 
                 // write the needed headers `Content-Type` and `Content-Range`
-                buf.write_all(format!("{CONTENT_TYPE}: video/mp4\r\n").as_bytes())?;
+                buf.write_all(format!("{CONTENT_TYPE}: {mime}\r\n").as_bytes())?;
                 buf.write_all(
                     format!("{CONTENT_RANGE}: bytes {start}-{end}/{len}\r\n").as_bytes(),
                 )?;

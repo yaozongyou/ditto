@@ -144,10 +144,17 @@ window.addEventListener("DOMContentLoaded", () => {
   openFile.addEventListener("click", () => {
     invoke("open_file_dialog").then( (filePath) => {
       console.log("file path", filePath);
+      let source_type = "video/mp4";
+      if (filePath.endsWith(".mp3")) {
+        source_type = "audio/mpeg";
+      } else if (filePath.endsWith(".wav")) {
+        source_type = "audio/wav";
+      }
 
       if (filePath && filePath.length > 0) {
         const source = video.getElementsByTagName('source')[0];
         source.src = convertFileSrc(filePath, 'stream');
+        source.type = source_type;
         video.load();
         clearAllTimeouts();
 
